@@ -1,0 +1,11 @@
+#!/usr/bin/with-contenv bash
+
+
+UMASK_SET=${UMASK_SET:-022}
+
+umask "$UMASK_SET"
+export HOME=/opt/hdhomerun
+echo "Running HDHomerun DVR"
+exec \
+  s6-setuidgid abc /bin/bash -c \
+  'cd /opt/hdhomerun && /opt/hdhomerun/hdhomerun_record_linux start'

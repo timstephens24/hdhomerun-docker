@@ -1,0 +1,21 @@
+#!/usr/bin/with-contenv bash
+
+# create folders
+#if [ ! -d "/opt/hdhomerun" ]; then
+#  mkdir -p "/opt/hdhomerun"
+#  wget -O /opt/hdhomerun/hdhomerun_record_linux http://download.silicondust.com/hdhomerun/hdhomerun_record_linux_beta
+#  chmod +x /opt/hdhomerun/hdhomerun_record_linux
+#  chown -R abc:abc /opt/hdhomerun/hdhomerun_record_linux
+#fi
+
+# check channels-dvr permissions
+PUID=${PUID:PGID}
+if [ ! "$(stat -c %u /opt/hdhomerun)" = "$PUID" ]; then
+  echo "Change in ownership detected, please be patient while we chown existing files"
+  echo "This could take some time"
+  chown abc:abc -R \
+  /opt/hdhomerun
+fi
+
+# make sure /etc/hdhomerun.conf has the correct permissions
+chmod 666 /etc/hdhomerun.conf
